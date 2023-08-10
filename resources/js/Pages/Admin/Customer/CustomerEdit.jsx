@@ -1,3 +1,4 @@
+import CopyrightComponent from '@/Components/CopyrightComponent'
 import EditCustomer from '@/Components/EditCustomer'
 import Navbar from '@/Components/Navbar'
 import { Head } from '@inertiajs/react'
@@ -12,6 +13,7 @@ const CustomerEdit = (props) => {
             <h2 className='font-bold text-2xl pl-5 py-2'>Edit Customer</h2>
         </div>
         <EditCustomer props={props} />
+        <CopyrightComponent />
     </>
   )
 }

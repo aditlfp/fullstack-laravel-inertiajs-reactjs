@@ -23,13 +23,18 @@ class CustomerRequest extends FormRequest
     {
         return [
             'no_plate' => 'required',
+            'nama_kendaraan' => 'required',
+            'tahun_kendaraan' => 'required',
             'model' => 'required',
+            'tahun' => 'required',
+            'nama_warna' => 'required',
+            'code_warna' => 'required',
+            'keterangan_warna' => 'required',
             'last_service_date' => 'nullable',
             'service_date' => 'required',
             'owner' => 'required',
             'mobile_phone' => 'required',
-            'birthday' => 'required',
-            'description' => 'nullable',
+            'alamat' => 'required',
         ];
     }
 }

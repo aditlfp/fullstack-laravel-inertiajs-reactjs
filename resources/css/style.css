@@ -1,0 +1,10 @@
+.required::after {
+    content: "*";
+    color: red;
+}
+
+.dashed::before {
+    content: "-";
+    color: black;
+    margin-right: 2px;
+}

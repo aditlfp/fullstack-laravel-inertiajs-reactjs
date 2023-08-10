@@ -1,4 +1,5 @@
 
+import CopyrightComponent from "@/Components/CopyrightComponent"
 import CreateProduct from "@/Components/CreateProduct"
 import Navbar from "@/Components/Navbar"
 import { Head } from "@inertiajs/react"
@@ -13,6 +14,7 @@ const ProductCreate = () => {
                 <h2 className='font-bold text-2xl pl-5 py-2'>Create New Products</h2>
             </div>
             <CreateProduct />
+            <CopyrightComponent />
         </>
     )
 }

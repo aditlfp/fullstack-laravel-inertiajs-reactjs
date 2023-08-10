@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductRequest;
+use App\Http\Resources\ProductCollection;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -12,7 +13,7 @@ class ProductController extends Controller
 
     public function index()
     {
-        $product = Product::all();
+        $product = new ProductCollection( Product::paginate(25));
         return Inertia::render('Admin/Product/ProductIndex', ['product' => $product]);
 
     }

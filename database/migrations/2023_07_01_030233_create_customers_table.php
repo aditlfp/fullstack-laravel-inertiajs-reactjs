@@ -14,13 +14,18 @@ return new class extends Migration
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
             $table->string('no_plate');
+            $table->string('nama_kendaraan');
+            $table->string('tahun_kendaraan');
             $table->string('model');
+            $table->string('tahun');
+            $table->string('nama_warna');
+            $table->string('code_warna');
+            $table->string('keterangan_warna');
             $table->string('last_service_date')->nullable();
             $table->string('service_date');
             $table->string('owner');
             $table->string('mobile_phone');
-            $table->string('birthday');
-            $table->string('description')->nullable();
+            $table->string('alamat');
             $table->timestamps();
         });
     }
