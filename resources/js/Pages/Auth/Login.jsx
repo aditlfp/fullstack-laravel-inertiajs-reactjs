@@ -121,7 +121,7 @@ export default function Login({ status, canResetPassword }) {
                         </Link>
                     )}
 
-                    <PrimaryButton className="ml-4" disabled={processing}>
+                    <PrimaryButton className="ml-4 shadow-inner shadow-sky-700" disabled={processing}>
                         {processing?(
                             <span className="loading loading-spinner"></span>
                         ): ''}
