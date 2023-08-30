@@ -27,6 +27,7 @@ export default function CreateExitsCustomer({ datas }) {
         const selectedOwner = datas.customer.find((cus) => cus.owner === owner);
         if (selectedOwner) {
             setData({
+                owner: selectedOwner.owner,
                 mobile_phone: selectedOwner.mobile_phone,
                 alamat: selectedOwner.alamat,
             });
@@ -42,6 +43,7 @@ export default function CreateExitsCustomer({ datas }) {
         <>
             <form onSubmit={submit}>
                 <div className="w-full">
+                    {/* <input type="text" value={data.owner}/> */}
                     <div className="w-3/6 mx-10">
                         <InputLabel
                             htmlFor="owner"
@@ -63,7 +65,7 @@ export default function CreateExitsCustomer({ datas }) {
                             </option>
                             {datas.customer.map((cus, index) => (
                                 <option key={index} value={cus.owner}>
-                                    {cus.owner} | {cus.nama_kendaraan}
+                                    {cus.owner}
                                 </option>
                             ))}
                         </select>
@@ -200,7 +202,7 @@ export default function CreateExitsCustomer({ datas }) {
                                     setData("model", e.target.value)
                                 }
                             >
-                                <option disabled selected defaultValue={0}>
+                                <option readOnly defaultValue={0}>
                                     Pilih Model
                                 </option>
                                 <option value="suv">SUV</option>

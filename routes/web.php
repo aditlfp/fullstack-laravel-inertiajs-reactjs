@@ -4,6 +4,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FixingCustomerController;
 use App\Http\Controllers\InvoicesController;
+use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -37,13 +38,19 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/create-invoices/{id}', [InvoicesController::class, 'index'])->name('create-invoices');
+    Route::resource('/customers', CustomerController::class)->only('index', 'create', 'store');
+    Route::resource('/fixings', FixingCustomerController::class)->only('index', 'create', 'store');
+
 });
 
 Route::middleware('auth', 'admin')->group( function () {
     Route::resource('/customer', CustomerController::class);
     Route::resource('/fixing', FixingCustomerController::class);
+    Route::get('/fixing/search/{query}', [FixingCustomerController::class, 'search']);
     Route::patch('/update-status/{id}', [FixingCustomerController::class, 'updateStatus'])->name('status-update');
     Route::get('/exist-customer', [CustomerController::class, 'createExist'])->name('exist-customer.create');
+    Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
+    Route::get('/report-month/{month}', [LaporanController::class, 'report'])->name('report.month');
 });
 
 require __DIR__.'/auth.php';

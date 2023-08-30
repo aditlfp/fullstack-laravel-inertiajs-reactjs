@@ -7,13 +7,16 @@ use App\Http\Resources\CustomerCollection;
 use App\Models\Customer;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class CustomerController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $customer = new CustomerCollection(Customer::paginate(25));
+        $customer = new CustomerCollection(Customer::when($request->search, function ($query, $search){
+                $query->where('owner', 'LIKE', '%' . $search . '%');
+        })->paginate(15));
         return Inertia::render('Admin/Customer/CustomerIndex', ['customer' => $customer]);
     }
 

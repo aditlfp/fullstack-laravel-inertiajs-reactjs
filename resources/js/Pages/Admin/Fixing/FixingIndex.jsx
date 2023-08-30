@@ -1,11 +1,26 @@
 import Navbar from "@/Components/Navbar";
-import { Head, Link } from "@inertiajs/react";
+import { Head, Link, useForm } from "@inertiajs/react";
 import FixingList from "../../../Components/FixingComponent/FixingList";
 import Paginator from "@/Components/Paginator/Paginator";
 import CopyrightComponent from "@/Components/CopyrightComponent";
+import _ from "lodash";
 
 const FixingIndex = (props) => {
-    // console.log(props);
+    const { data, setData } = useForm({
+        search: "",
+    });
+
+    const debouncedSearch = _.debounce((searchQuery) => {
+        const searchUrl = route("fixings.index", { search: searchQuery });
+        window.location.href = searchUrl;
+    }, 200);
+
+    const handleSearchChange = (e) => {
+        e.preventDefault();
+        const newSearchQuery = data.search;
+        debouncedSearch(newSearchQuery);
+    };
+
     return (
         <>
             <Head title="Perbaikan" />
@@ -54,8 +69,25 @@ const FixingIndex = (props) => {
                         </div>
                     )}
                 </div>
-                <div className="overflow-x-auto mx-10 rounded-md shadow-md">
-                    <FixingList datas={props.fix} statuses={props.status} />
+                <div className="overflow-x-auto mx-10 rounded-md">
+                    <div className="flex justify-end mb-5">
+                        <input
+                            type="text"
+                            id="search"
+                            className="input input-bordered rounded-r-none"
+                            value={data.search} // Bind the value to the search field
+                            onChange={(e) => setData("search", e.target.value)}
+                        />
+                        <button
+                            onClick={handleSearchChange}
+                            className="btn btn-primary rounded-l-none"
+                        >
+                            Search
+                        </button>
+                    </div>
+                    <div className="rounded-md shadow-md">
+                    <FixingList datas={props.fix} statuses={props.status}/>
+                    </div>
                 </div>
                 <div className="flex justify-center items-center mt-3">
                     <Paginator meta={props.fix.meta} />

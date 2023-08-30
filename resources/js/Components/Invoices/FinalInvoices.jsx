@@ -1,6 +1,9 @@
+import { usePage } from "@inertiajs/react";
 import { useEffect } from "react";
 
 const FinalInvoices = ({ props }) => {
+    const { auth } = usePage().props;
+
     const price = new Intl.NumberFormat("id-ID", {
         style: "currency",
         currency: "IDR",
@@ -229,12 +232,18 @@ const FinalInvoices = ({ props }) => {
                                     </span>
                                 </div>
                             </div>
-                            <div>
-                                <div className="flex justify-end mt-5">
+                            <div className="flex gap-x-5 justify-between">
+                                <div className="pl-16 flex flex-col justify-center mt-5 gap-y-10">
                                     <span>Ponorogo, {props.dateNow}</span>
+                                    <span className="text-center">
+                                        TTD, {props.auth.user.name}
+                                    </span>
                                 </div>
-                                <div className="flex justify-end mx-auto mt-16">
-                                    <span>TTD, {props.fix.customer.owner}</span>
+                                <div className="flex flex-col justify-center gap-y-10 mt-5">
+                                    <span>Ponorogo, {props.dateNow}</span>
+                                    <span className="text-center">
+                                        TTD, {props.fix.customer.owner}
+                                    </span>
                                 </div>
                             </div>
                         </div>

@@ -9,14 +9,19 @@ use App\Models\FixingCustomer;
 use App\Models\Status;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class FixingCustomerController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $status = Status::all();
-        $fix = new FixingCustomerCollection(FixingCustomer::with('Customer')->paginate(15));
+        $fix = new FixingCustomerCollection(FixingCustomer::with('Customer')->when($request->search, function ($query, $search){
+            $query->whereHas('customer', function ($subQuery) use ($search) {
+                $subQuery->where('owner', 'LIKE', '%' . $search . '%');
+            });
+        })->paginate(15));
         return Inertia::render('Admin/Fixing/FixingIndex', ['fix' => $fix, 'status' => $status]);
     }
 
@@ -136,4 +141,6 @@ class FixingCustomerController extends Controller
             throw $th;
         }
     }
+
+
 }

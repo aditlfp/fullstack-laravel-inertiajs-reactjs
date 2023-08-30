@@ -4,10 +4,25 @@ import CopyrightComponent from "@/Components/CopyrightComponent";
 import CustomerList from "@/Components/CustomerList";
 import Navbar from "@/Components/Navbar";
 import Paginator from "@/Components/Paginator/Paginator";
-import { Head, Link } from "@inertiajs/react";
+import { Head, Link, useForm } from "@inertiajs/react";
 import React, { useState } from "react";
+import _ from "lodash";
 
 const CustomerIndex = (props) => {
+    const { data, setData } = useForm({
+        search: "",
+    });
+
+    const debouncedSearch = _.debounce((searchQuery) => {
+        const searchUrl = route("customer.index", { search: searchQuery });
+        window.location.href = searchUrl;
+    }, 200);
+
+    const handleSearchChange = (e) => {
+        e.preventDefault();
+        const newSearchQuery = data.search;
+        debouncedSearch(newSearchQuery);
+    };
     return (
         <>
             <Head title="Customer" />
@@ -55,6 +70,21 @@ const CustomerIndex = (props) => {
                             <span>{props.flash.peringatan}</span>
                         </div>
                     )}
+                </div>
+                <div className="flex justify-end mb-5 mx-10">
+                    <input
+                        type="text"
+                        id="search"
+                        className="input input-bordered rounded-r-none"
+                        value={data.search} // Bind the value to the search field
+                        onChange={(e) => setData("search", e.target.value)}
+                    />
+                    <button
+                        onClick={handleSearchChange}
+                        className="btn btn-primary rounded-l-none"
+                    >
+                        Search
+                    </button>
                 </div>
                 <div className="overflow-x-auto mx-10 rounded-md shadow-md">
                     <CustomerList datas={props.customer} />

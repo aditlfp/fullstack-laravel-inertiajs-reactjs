@@ -22,6 +22,8 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
+        "@arismun/format-rupiah": "^3.0.0",
+        "lodash": "^4.17.21",
         "react-toastify": "^9.1.3"
     }
 }

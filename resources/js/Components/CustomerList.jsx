@@ -1,15 +1,15 @@
-import { Link, useForm } from "@inertiajs/react";
+import { Link, useForm, usePage } from "@inertiajs/react";
 import BtnEditMini from "./BtnEditMini";
 import BtnDeleteMini from "./BtnDeleteMini";
 import Modal from "@/Components/Modal";
 import { useState } from "react";
 import SecondaryButton from "./SecondaryButton";
 
-
 const isCustomer = (datas) => {
+    const { auth } = usePage().props;
     const [confirmingFixDeletion, setConfirmingFixDeletion] = useState(false);
-    const {data, setData, processing} = useForm({
-        id: ""
+    const { data, setData, processing } = useForm({
+        id: "",
     });
 
     // Modal
@@ -25,7 +25,7 @@ const isCustomer = (datas) => {
         setTimeout(() => {
             setConfirmingFixDeletion(false);
         }, 2000);
-    }
+    };
     // End Modal
     return (
         <table className="table table-zebra table-xs">
@@ -65,79 +65,93 @@ const isCustomer = (datas) => {
                                 <td>{data.keterangan_warna}</td>
                                 <td>{data.mobile_phone}</td>
                                 <td>{data.alamat}</td>
-                                <td>{data.last_service_date ? data.last_service_date : <span className="flex justify-center">~</span>}</td>
-                                <td>{data.service_date}</td>
-                                <td className="flex gap-1">
-                                    <Link
-                                        href={"customer/" + data.id + "/edit"}
-                                        method="get"
-                                        as="button"
-                                    >
-                                        <BtnEditMini />
-                                    </Link>
-
-                                    <Modal
-                                                show={confirmingFixDeletion}
-                                                onClose={closeModal}
-                                            >
-                                                <div className="flex justify-end items-center">
-                                                    <button className="bg-red-600 absolute top-5 right-5 py-[0.32rem] px-3 rounded-xl text-white font-bold hover:bg-red-800 transition-all ease-in-out .2s" onClick={closeModal}>X</button>
-                                                </div>
-                                                <div className="m-10">
-                                                    <h2 className="text-xl font-bold text-gray-900">
-                                                        Kamu Yakin Ingin
-                                                        Menghapus Data Ini ?
-                                                    </h2>
-
-                                                    <p className="mt-1 text-sm text-gray-600">
-                                                        Setelah data ini dihapus,
-                                                        semua sumber daya dan
-                                                        datanya akan dihapus
-                                                        secara permanen.
-                                                        Silahkan Anda untuk
-                                                        konfirmasikan bahwa Anda
-                                                        ingin menghapus data
-                                                        Anda secara permanen.
-                                                    </p>
-
-                                                    <div className="mt-6 flex justify-end">
-                                                        <SecondaryButton
-                                                            onClick={closeModal}
-                                                        >
-                                                            Batalkan
-                                                        </SecondaryButton>
-                                                        <Link
-                                                            className="ml-3 btn bg-red-400 hover:bg-red-500 transition-colors ease-linear .2s"
-                                                            disabled={
-                                                                processing
-                                                            }
-                                                            href={
-                                                                "customer/" +
-                                                                data.id
-                                                            }
-                                                            method="delete"
-                                                            data={{
-                                                                id: data.id,
-                                                            }}
-                                                            as="button"
-                                                            onClick={TimeOut}
-                                                        >
-                                                            {processing ? (
-                                                                <span className="loading loading-spinner"></span>
-                                                            ) : (
-                                                                ""
-                                                            )}
-                                                            Konfirmasi Hapus Data
-                                                        </Link>
-                                                    </div>
-                                                </div>
-                                            </Modal>
-                                            <button
-                                                onClick={confirmFixDeletion}
-                                            >
-                                                <BtnDeleteMini />
-                                            </button>
+                                <td>
+                                    {data.last_service_date ? (
+                                        data.last_service_date
+                                    ) : (
+                                        <span className="flex justify-center">
+                                            ~
+                                        </span>
+                                    )}
                                 </td>
+                                <td>{data.service_date}</td>
+                                {auth.user.role_id == 1 ? (
+                                    <td className="flex gap-1">
+                                        <Link
+                                            href={
+                                                "customer/" + data.id + "/edit"
+                                            }
+                                            method="get"
+                                            as="button"
+                                        >
+                                            <BtnEditMini />
+                                        </Link>
+
+                                        <Modal
+                                            show={confirmingFixDeletion}
+                                            onClose={closeModal}
+                                        >
+                                            <div className="flex justify-end items-center">
+                                                <button
+                                                    className="bg-red-600 absolute top-5 right-5 py-[0.32rem] px-3 rounded-xl text-white font-bold hover:bg-red-800 transition-all ease-in-out .2s"
+                                                    onClick={closeModal}
+                                                >
+                                                    X
+                                                </button>
+                                            </div>
+                                            <div className="m-10">
+                                                <h2 className="text-xl font-bold text-gray-900">
+                                                    Kamu Yakin Ingin Menghapus
+                                                    Data Ini ?
+                                                </h2>
+
+                                                <p className="mt-1 text-sm text-gray-600">
+                                                    Setelah data ini dihapus,
+                                                    semua sumber daya dan
+                                                    datanya akan dihapus secara
+                                                    permanen. Silahkan Anda
+                                                    untuk konfirmasikan bahwa
+                                                    Anda ingin menghapus data
+                                                    Anda secara permanen.
+                                                </p>
+
+                                                <div className="mt-6 flex justify-end">
+                                                    <SecondaryButton
+                                                        onClick={closeModal}
+                                                    >
+                                                        Batalkan
+                                                    </SecondaryButton>
+                                                    <Link
+                                                        className="ml-3 btn bg-red-400 hover:bg-red-500 transition-colors ease-linear .2s"
+                                                        disabled={processing}
+                                                        href={
+                                                            "customer/" +
+                                                            data.id
+                                                        }
+                                                        method="delete"
+                                                        data={{
+                                                            id: data.id,
+                                                        }}
+                                                        as="button"
+                                                        onClick={TimeOut}
+                                                    >
+                                                        {processing ? (
+                                                            <span className="loading loading-spinner"></span>
+                                                        ) : (
+                                                            ""
+                                                        )}
+                                                        Konfirmasi Hapus Data
+                                                    </Link>
+                                                </div>
+                                            </div>
+                                        </Modal>
+                                        <button onClick={confirmFixDeletion}>
+                                            <BtnDeleteMini />
+                                        </button>
+                                    </td>
+                                ) : (
+                                    <td></td>
+                                )}
                             </tr>
                         );
                     })
